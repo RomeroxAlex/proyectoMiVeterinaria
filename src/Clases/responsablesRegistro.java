@@ -4,6 +4,8 @@ import java.sql.ResultSet;
 
 public class responsablesRegistro {
     
+    
+    String apellidos;
     //Instanciamos un objeto de tipo conexionCalistenia
     conexionResponsables cn = new conexionResponsables();
     
