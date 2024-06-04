@@ -32,10 +32,17 @@ public class tablaCitas {
         return (cn.getValores("SELECT MAX(idCita) FROM citas"));
     }
 
+    //Existe tabla tipo_raza
+     public ResultSet mascota_responsable(String idMascota) {
+        return (cn.getValores("select * from tipo_raza where idMascota='"+idMascota+"'"));
+    }
+      public ResultSet getIdM(String clave) {
+        return (cn.getValores("select * from mascotas where nombres='"+clave+"'"));
+    }
     
-    
-    
-    
+       public ResultSet getDatos(String idM) {
+        return (cn.getValores("select * from mascotas_responsables where idMascota='"+idM+"'"));
+    }
     
     public ResultSet llenarTabla() {
         return (cn.getValores("SELECT codigo,apellido1,nombre,celular FROM clientes"));

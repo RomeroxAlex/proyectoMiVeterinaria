@@ -34,8 +34,8 @@ public class tablaResponsables {
     }
 
     
-     public void insertarM_R(String idMascota,String idResponsable) { 
-        cn.UID("INSERT INTO mascota_responsable " + "VALUES(' " + idMascota + " ','" + idResponsable + "')");
+     public void insertarM_R(String idMascota,String idResponsable,String nombreM,String nombreR) { 
+        cn.UID("INSERT INTO mascotas_responsables " + "VALUES(' " + idMascota + " ','" + idResponsable + "','"+nombreM+"','"+nombreR+"')");
     }
     
     

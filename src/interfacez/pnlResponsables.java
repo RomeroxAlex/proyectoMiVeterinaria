@@ -18,7 +18,7 @@ public class pnlResponsables extends javax.swing.JPanel {
     }
     
     
-     tablaResponsables tablaResponsables= new tablaResponsables();
+    tablaResponsables tablaResponsables= new tablaResponsables();
      
     ResultSet rs = null;
     int cantidad, mayor;
@@ -294,9 +294,9 @@ public class pnlResponsables extends javax.swing.JPanel {
         if(txtId.getText().isEmpty()||txtNombre.getText().isEmpty()||txtApellido.getText().isEmpty()||txtEdad.getText().isEmpty()||ftxtFechaNacimiento.getText().isEmpty()||ftxtCelular.getText().isEmpty()){
             lblW.setText("Por favor, asegúrese de no dejar campos Nulos");
         }else{
-            
+            String nombreM="";
             tablaResponsables.insertar(txtId.getText(), txtNombre.getText(), txtApellido.getText(), txtEdad.getText(), ftxtFechaNacimiento.getText(), ftxtCelular.getText(), txtFechaRegistro.getText());
-            tablaResponsables.insertarM_R(valor, txtId.getText());
+            tablaResponsables.insertarM_R(valor, txtId.getText(),nombreM,txtNombre.getText());
             lblW.setText("Se ha guardado con éxito");
             clean();
         }

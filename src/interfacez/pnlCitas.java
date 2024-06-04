@@ -1,14 +1,61 @@
 
 package interfacez;
 
+import Clases.tablaCitas;
+import Clases.tablaMascotas;
+import Clases.tablaResponsables;
+import java.awt.PopupMenu;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 
 public class pnlCitas extends javax.swing.JPanel {
+    String nMascota;
+    DefaultComboBoxModel responsables = new DefaultComboBoxModel();
+    DefaultComboBoxModel nombresResponsables = new DefaultComboBoxModel();
+    DefaultComboBoxModel mascotas = new DefaultComboBoxModel();
+    DefaultComboBoxModel nombresMascotas = new DefaultComboBoxModel();
+    DefaultTableModel modeloClientes = new DefaultTableModel();
+    ArrayList<String> encabezados = new ArrayList<>();
+    
+    ResultSet rstResponsables = null;
+    ResultSet rstMascotas = null;
+    ResultSet rstClientes = null;
+    tablaResponsables tablaResponsables = new tablaResponsables();
+    tablaMascotas tablaMascota = new tablaMascotas();
+    
+    private String valor;
+    ResultSet rs = null;
+    tablaCitas tablaCitas = new tablaCitas();
+    int cantidad, mayor;
+    
+    
 
-  
+    public void setValor(String valor) {
+        this.valor = valor;
+    }
+    
+    public void Columnas() {
+        encabezados.clear();
+        encabezados.add("Id");
+        encabezados.add("Nombre");
+        encabezados.add("Apellido");
+        encabezados.add("Departamento");
+        encabezados.add("Municipio");
+        encabezados.add("Nombre Departamento");
+        encabezados.add("Nombre Municipio");
+    }
+
     public pnlCitas() {
         initComponents();
+        cbxResponsables.setModel(responsables);
         txtIdCita.setEnabled(false);
     }
 
@@ -32,11 +79,12 @@ public class pnlCitas extends javax.swing.JPanel {
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         jLabel5 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
         jLabel1 = new javax.swing.JLabel();
         ftxtHoraCita = new javax.swing.JFormattedTextField();
         jLabel6 = new javax.swing.JLabel();
-        jComboBox2 = new javax.swing.JComboBox<>();
+        cbxResponsables = new javax.swing.JComboBox<>();
+        txtMascota = new javax.swing.JTextField();
+        jButton2 = new javax.swing.JButton();
 
         txtBuscarCita.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
@@ -83,6 +131,11 @@ public class pnlCitas extends javax.swing.JPanel {
         btnLimpiar.setText("Limpiar");
 
         jButton1.setText("Nuevo");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -99,13 +152,34 @@ public class pnlCitas extends javax.swing.JPanel {
 
         jLabel5.setText("Citas en el Sistema");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
         jLabel1.setText("Hora Cita");
 
         jLabel6.setText("Responsable");
 
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cbxResponsables.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cbxResponsables.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cbxResponsablesItemStateChanged(evt);
+            }
+        });
+
+        txtMascota.addContainerListener(new java.awt.event.ContainerAdapter() {
+            public void componentAdded(java.awt.event.ContainerEvent evt) {
+                txtMascotaComponentAdded(evt);
+            }
+        });
+        txtMascota.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtMascotaKeyTyped(evt);
+            }
+        });
+
+        jButton2.setText("jButton2");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -126,9 +200,11 @@ public class pnlCitas extends javax.swing.JPanel {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(txtIdCita, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(ftxtfechaCita)
-                            .addComponent(jComboBox1, 0, 97, Short.MAX_VALUE)
                             .addComponent(ftxtHoraCita)
-                            .addComponent(jComboBox2, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                            .addComponent(cbxResponsables, 0, 97, Short.MAX_VALUE)
+                            .addComponent(txtMascota))
+                        .addGap(29, 29, 29)
+                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jLabel5)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 662, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
@@ -175,11 +251,12 @@ public class pnlCitas extends javax.swing.JPanel {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel3)
-                            .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(txtMascota, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButton2))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
-                    .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(cbxResponsables, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(22, 22, 22)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
@@ -228,6 +305,102 @@ public class pnlCitas extends javax.swing.JPanel {
       }
     }//GEN-LAST:event_btnAgregarActionPerformed
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        txtIdCita.setText(this.valor);
+        
+        rs = null;
+        rs = tablaCitas.contarRegistros();
+        try {
+            while (rs.next()) {
+                cantidad = rs.getInt(1);
+                if (cantidad != 0) {// si no es cero es porque hay datos
+                    rs = null;
+                    //método en clase Clientes
+                    rs = tablaCitas.mayorRegistro();
+                    while (rs.next()) {
+                        mayor = rs.getInt(1) + 1;
+                        txtIdCita.setText("" + mayor);
+
+                    }
+                }else{
+                    mayor=1;
+                    txtIdCita.setText(""+mayor);
+                }
+            }
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, ex);
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void cbxResponsablesItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbxResponsablesItemStateChanged
+        //lblMunicipioSeleccionado.setText(String.valueOf(mascotas.getElementAt(posicion)));
+    
+    }//GEN-LAST:event_cbxResponsablesItemStateChanged
+
+    private void txtMascotaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtMascotaKeyTyped
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_txtMascotaKeyTyped
+
+    private void txtMascotaComponentAdded(java.awt.event.ContainerEvent evt) {//GEN-FIRST:event_txtMascotaComponentAdded
+        String componente="",temporal="",idM="";
+        temporal=txtMascota.getText();
+        rs = null;
+        rs = tablaCitas.getIdM(temporal);
+        //JOptionPane.showMessageDialog(null, txtBusqueda.getText());
+        try {
+            while (rs.next()) {
+                idM = rs.getString(1);
+
+            }
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, ex);
+        }
+
+        rs = null;
+        rs = tablaCitas.getDatos(idM);
+
+        try {
+            while (rs.next()) {
+                cbxResponsables.addItem(rs.getString(4));
+            }
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, ex);
+        }
+
+        
+        
+    }//GEN-LAST:event_txtMascotaComponentAdded
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        String componente="",temporal="",idM="",idR="";
+        temporal=txtMascota.getText();
+        rs=null;
+        rs=tablaCitas.getIdM(temporal);
+        //JOptionPane.showMessageDialog(null, txtBusqueda.getText());
+        try {
+            while (rs.next()){
+            idM=rs.getString(1);
+     
+            }
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, ex);
+        }
+       rs=tablaCitas.getDatos(idM);
+         try {
+            while (rs.next()){
+                componente=rs.getString(4);
+                cbxResponsables.addItem(componente);
+     
+            }
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, ex);
+        }
+       
+
+    }//GEN-LAST:event_jButton2ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAgregar;
@@ -235,11 +408,11 @@ public class pnlCitas extends javax.swing.JPanel {
     private javax.swing.JButton btnEliminarCita;
     private javax.swing.JButton btnLimpiar;
     private javax.swing.JButton btnModificarCita;
+    private javax.swing.JComboBox<String> cbxResponsables;
     private javax.swing.JFormattedTextField ftxtHoraCita;
     private javax.swing.JFormattedTextField ftxtfechaCita;
     private javax.swing.JButton jButton1;
-    private javax.swing.JComboBox<String> jComboBox1;
-    private javax.swing.JComboBox<String> jComboBox2;
+    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -250,5 +423,10 @@ public class pnlCitas extends javax.swing.JPanel {
     private javax.swing.JTable jTable1;
     private javax.swing.JTextField txtBuscarCita;
     private javax.swing.JTextField txtIdCita;
+    private javax.swing.JTextField txtMascota;
     // End of variables declaration//GEN-END:variables
+
+    private void setLocationRelativeTo(Object object) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
 }
