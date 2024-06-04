@@ -345,6 +345,7 @@ public class pnlMascotas extends javax.swing.JPanel {
         } else {
             tablaMascotas.insertar(txtIdM.getText(), txtNombreMascota.getText(),cbxTipo.getSelectedItem().toString(),txtAlturaMascota.getText(),txtPesoMascota.getText(),txtRazaMascota.getText(),ftxtFechaNacimientoMascota.getText(),txtEdadMascota.getText(),txtFechaRegistro.getText(),txtDiagnosticoMascota.getText());
             lblW.setText("Se ha guardado con éxito");
+            
             clean();
         }
 

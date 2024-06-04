@@ -296,6 +296,7 @@ public class pnlResponsables extends javax.swing.JPanel {
         }else{
             
             tablaResponsables.insertar(txtId.getText(), txtNombre.getText(), txtApellido.getText(), txtEdad.getText(), ftxtFechaNacimiento.getText(), ftxtCelular.getText(), txtFechaRegistro.getText());
+            tablaResponsables.insertarM_R(valor, txtId.getText());
             lblW.setText("Se ha guardado con éxito");
             clean();
         }
