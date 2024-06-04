@@ -13,9 +13,9 @@ import javax.swing.JOptionPane;
 
 public class conexionResponsables {
     
-    private final String url = "jdbc:mysql://localhost:3306/calisteNia?characterEncoding=utf8";
+    private final String url = "jdbc:mysql://localhost:3306/veterinariaProyecto?characterEncoding=utf8";
     private final String login = "root"; //Administrador de MySQL
-    private final String password = "12345678";
+    private final String password = "12345";
     private Connection cnx = null;
     private Statement sttm = null;
     private ResultSet rst = null;
