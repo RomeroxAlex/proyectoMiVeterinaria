@@ -9,7 +9,9 @@ import javax.swing.JOptionPane;
 
 public class frmIntercambio extends javax.swing.JFrame {
 
+   String valor;
    
+
     public frmIntercambio() {
         initComponents();
         
@@ -33,7 +35,6 @@ public class frmIntercambio extends javax.swing.JFrame {
         setTitle("Veterinaria Mascota Feliz");
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         setLocation(new java.awt.Point(0, 0));
-        setResizable(false);
 
         pnlContenido.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
 
@@ -48,7 +49,7 @@ public class frmIntercambio extends javax.swing.JFrame {
             .addGap(0, 0, Short.MAX_VALUE)
         );
 
-        jLabel1.setText("Buscar Id");
+        jLabel1.setText("Asignar Responsables");
 
         txtBuscarId.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
@@ -79,7 +80,7 @@ public class frmIntercambio extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(531, Short.MAX_VALUE)
+                .addContainerGap(465, Short.MAX_VALUE)
                 .addComponent(jLabel1)
                 .addGap(18, 18, 18)
                 .addComponent(txtBuscarId, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -120,16 +121,24 @@ public class frmIntercambio extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void cbxCambioPanelesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxCambioPanelesActionPerformed
-       
+   
+        boolean txtVacio = false;
+        if(txtBuscarId.getText().isEmpty()){
+            txtVacio=true;
+        }else{
+            txtVacio=false;
+        }
 
-            if (cbxCambioPaneles.getSelectedItem().equals("Responsables")) {
-                pnlResponsables pnlResponsable = new pnlResponsables();
-                pnlResponsable.setSize(900, 580);
-                pnlResponsable.setLocation(2, 3);
-                pnlContenido.removeAll();
-                pnlContenido.add(pnlResponsable, BorderLayout.CENTER);
-                pnlContenido.revalidate();
-                pnlContenido.repaint();
+        if (cbxCambioPaneles.getSelectedItem().equals("Responsables")&&(txtVacio==false)) {
+            valor=txtBuscarId.getText();
+            pnlResponsables pnlResponsable = new pnlResponsables();
+            pnlResponsable.setValor(valor);
+            pnlResponsable.setSize(900, 580);
+            pnlResponsable.setLocation(2, 3);
+            pnlContenido.removeAll();
+            pnlContenido.add(pnlResponsable, BorderLayout.CENTER);
+            pnlContenido.revalidate();
+            pnlContenido.repaint();
 
             } else if (cbxCambioPaneles.getSelectedItem().equals("Mascotas")) {
                 pnlMascotas pnlM = new pnlMascotas();

@@ -11,15 +11,22 @@ import java.time.Period;
 
 public class pnlResponsables extends javax.swing.JPanel {
     
+    private String valor;
+
+    public void setValor(String valor) {
+        this.valor = valor;
+    }
+    
     
      tablaResponsables tablaResponsables= new tablaResponsables();
-
+     
     ResultSet rs = null;
     int cantidad, mayor;
     public pnlResponsables() {
         initComponents();
         txtId.setEnabled(false);
         txtFechaRegistro.setText(LocalDate.now().toString());
+        txtMascota.setEnabled(false);
     }
 
  
@@ -47,6 +54,8 @@ public class pnlResponsables extends javax.swing.JPanel {
         ftxtCelular = new javax.swing.JFormattedTextField();
         lblW = new javax.swing.JLabel();
         txtFechaRegistro = new javax.swing.JTextField();
+        jLabel7 = new javax.swing.JLabel();
+        txtMascota = new javax.swing.JTextField();
 
         setPreferredSize(new java.awt.Dimension(560, 620));
 
@@ -117,6 +126,10 @@ public class pnlResponsables extends javax.swing.JPanel {
             }
         });
 
+        jLabel7.setText("Asignado a:");
+
+        txtMascota.setText("jTextField1");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -151,15 +164,18 @@ public class pnlResponsables extends javax.swing.JPanel {
                                             .addComponent(jLabel4)
                                             .addComponent(jLabel3)
                                             .addComponent(jLabel1)
-                                            .addComponent(jLabel2))
+                                            .addComponent(jLabel2)
+                                            .addComponent(jLabel7))
                                         .addGap(18, 18, 18)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                            .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(txtId, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(txtApellido, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addGroup(layout.createSequentialGroup()
-                                                .addComponent(txtEdad)
-                                                .addGap(87, 87, 87)))))
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(txtMascota, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                                .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addComponent(txtId, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addComponent(txtApellido, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addGroup(layout.createSequentialGroup()
+                                                    .addComponent(txtEdad)
+                                                    .addGap(87, 87, 87))))))
                                 .addGap(37, 37, 37))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(btnNuevo)
@@ -180,7 +196,11 @@ public class pnlResponsables extends javax.swing.JPanel {
                     .addComponent(btnModificar)
                     .addComponent(btnEliminar)
                     .addComponent(btnNuevo))
-                .addGap(45, 45, 45)
+                .addGap(14, 14, 14)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel7)
+                    .addComponent(txtMascota, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(txtId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -213,7 +233,7 @@ public class pnlResponsables extends javax.swing.JPanel {
                         .addGap(102, 102, 102)
                         .addComponent(lblW, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(txtFechaRegistro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(98, Short.MAX_VALUE))
+                .addContainerGap(95, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -230,6 +250,8 @@ public class pnlResponsables extends javax.swing.JPanel {
 
     private void btnNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoActionPerformed
         // TODO add your handling code here:
+        txtMascota.setText(this.valor);
+        
         txtFechaRegistro.setText(LocalDate.now().toString());
           rs = null;
         rs = tablaResponsables.contarRegistros();
@@ -272,6 +294,7 @@ public class pnlResponsables extends javax.swing.JPanel {
         if(txtId.getText().isEmpty()||txtNombre.getText().isEmpty()||txtApellido.getText().isEmpty()||txtEdad.getText().isEmpty()||ftxtFechaNacimiento.getText().isEmpty()||ftxtCelular.getText().isEmpty()){
             lblW.setText("Por favor, asegúrese de no dejar campos Nulos");
         }else{
+            
             tablaResponsables.insertar(txtId.getText(), txtNombre.getText(), txtApellido.getText(), txtEdad.getText(), ftxtFechaNacimiento.getText(), ftxtCelular.getText(), txtFechaRegistro.getText());
             lblW.setText("Se ha guardado con éxito");
             clean();
@@ -334,12 +357,14 @@ public class pnlResponsables extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel lblW;
     private javax.swing.JTextField txtApellido;
     private javax.swing.JTextField txtBuscar;
     private javax.swing.JTextField txtEdad;
     private javax.swing.JTextField txtFechaRegistro;
     private javax.swing.JTextField txtId;
+    private javax.swing.JTextField txtMascota;
     private javax.swing.JTextField txtNombre;
     // End of variables declaration//GEN-END:variables
 }
