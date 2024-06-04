@@ -12,6 +12,7 @@ public class frmIntercambio extends javax.swing.JFrame {
    
     public frmIntercambio() {
         initComponents();
+        
 
     }
 
